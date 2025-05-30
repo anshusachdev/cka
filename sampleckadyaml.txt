@@ -100,10 +100,30 @@ spec:
 
 kubectl patch vpa my-vpa --type='json' -p '[{"op": "replace", "path": "/spec/updatePolicy/updateMode", "value": "Auto"}]'
 
---
+
+$.status.containerStatuses[?( @ name==redis-container)].restartCount
 
 
----
+--sudo kubeadm init --apiserver-advertise-address 192.168.1.21 --pod-network-cidr "10.244.0.0/16" --upload-certs
+
+ export ETCDCTL_API=3
+etcdctl get / --keys-only --limit=10 --prefix --endpoints=127.0.0.1:2379 --cacert="/etc/kubernetes/pki/etcd/ca.crt" --cert="/etc/kubernetes/pki/etcd/server.crt" --key="/etc/kubernetes/pki/etcd/server.key" 
+
+etcdctl put mykey anshu --endpoints=127.0.0.1:2379 --cacert="/etc/kubernetes/pki/etcd/ca.crt" --cert="/etc/kubernetes/pki/etcd/server.crt" --key="/etc/kubernetes/pki/etcd/server.key" 
+
+etcdctl get mykey  --endpoints=127.0.0.1:2379 --cacert="/etc/kubernetes/pki/etcd/ca.crt" --cert="/etc/kubernetes/pki/etcd/server.crt" --key="/etc/kubernetes/pki/etcd/server.key"
+
+----->>
+ # Create an ingress with the same host and multiple paths
+  kubectl create world multipath --class=default \
+  --rule="foo.com/=svc:port" \
+  --rule="foo.com/admin/=svcadmin:portadmin"
+  
+  
+    kubectl -n world create ingress world --class=default \
+  --rule="world.universe.mine/path*=asia:30080" \
+  --rule="world.universe.mine/path*=europe:30080"
+--->>>
 apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
